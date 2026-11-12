@@ -1,11 +1,3 @@
-%% Example CV - [YOUR_NAME]
-%% Comprehensive overview of all competencies, experience, and achievements.
-%% Use as a master reference when tailoring role-specific CVs.
-%%
-%% SETUP: Run /setup to populate this with your actual information.
-%% Compile with: lualatex main_example.tex
-%% (pdflatex often fails on modern MiKTeX with fontawesome5 font-expansion errors.)
-
 \documentclass[11pt,a4paper,sans]{moderncv}
 \moderncvstyle{banking}
 \moderncvcolor{blue}
@@ -24,146 +16,41 @@
     linkcolor=blue,
     filecolor=magenta,
     urlcolor=blue,
-    pdftitle={[YOUR_NAME] - CV},
+    pdftitle={Andreas Panayiotou - CV},
     pdfpagemode=FullScreen,
 }
 \usepackage[scale=0.80]{geometry}
 \usepackage{import}
 
-% personal data
-\name{[First]}{[Last]}
-\address{[Your Address, City, Country]}{}{}
-\phone[mobile]{[+XX XXXXXXXXXX]}
-\email{[your.email@example.com]}
-\extrainfo{\href{[https://linkedin.com/in/your-profile]}{LinkedIn}, \href{[https://github.com/your-username]}{GitHub}}
+% Selected source material; the complete employment and skills record is in 01-candidate-profile.md.
+\name{Andreas}{Panayiotou}
+\phone[mobile]{+44 7834388625}
+\email{a.panayiotou17@hotmail.com}
+\extrainfo{\href{https://linkedin.com/in/a-panayiotou}{LinkedIn}}
 
 \begin{document}
-
 \makecvtitle
 
-% ============================================================
-%     PROFILE STATEMENT
-% ============================================================
-
-\vspace{6pt}
-\small{[Write a 3-5 line profile statement tailored to the role you're applying for. Focus on what makes you uniquely qualified. Example: "Data scientist with a PhD in [field] and X years of industry experience. Combines deep domain expertise in [domain] with strong applied machine learning and Python development skills. Experienced in developing end-to-end ML pipelines, from data ingestion to stakeholder-facing dashboards."]}
-
-% ============================================================
-%     CORE COMPETENCIES
-% ============================================================
+\section{Profile}
+Bioinformatics specialist with a first-class MSci in Natural Sciences. Analysed proteomics data in chronic-pain research, contributed to manuscript writing and built a reusable analysis tool. Previous work spans biomedical AI evaluation, Python automation and client-facing analytics.
 
 \section{Core Competencies}
-\vspace{1pt}
-\begin{itemize}
-
-\item \textbf{[Skill Category 1]}: [Specific skills, frameworks, tools. Be concrete.]
-
-\item \textbf{[Skill Category 2]}: [Specific skills, frameworks, tools.]
-
-\item \textbf{[Skill Category 3]}: [Specific skills, frameworks, tools.]
-
-\item \textbf{[Skill Category 4]}: [Domain expertise, methods, approaches.]
-
-\item \textbf{[Skill Category 5]}: [Tools, platforms, software.]
-
-\end{itemize}
-
-% ============================================================
-%     PROFESSIONAL EXPERIENCE
-% ============================================================
+\cvitem{Research}{Proteomics, logistic regression, limma, mathematical modelling, study participant coordination and scientific writing.}
+\cvitem{Computing}{Python, SQL, Java, Git, pandas, scikit-learn, PyTorch and TensorFlow.}
+\cvitem{Data analysis}{Tableau, Looker Studio, SPSS, REDCap and Excel.}
+\cvitem{Communication}{Client training, technical presentations, account management and sales negotiation.}
 
 \section{Professional Experience}
-\vspace{3pt}
-\begin{itemize}
-
-% --- Most Recent Role ---
-\item{\cventry{[YYYY--Present]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
-\begin{itemize}
-    \item [Achievement or responsibility 1 - be specific, use numbers where possible]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
-    \item [Achievement or responsibility 4]
-\end{itemize}}}
-
-\vspace{3pt}
-
-% --- Previous Role ---
-\item{\cventry{[YYYY--YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
-\begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
-\end{itemize}}}
-
-\vspace{3pt}
-
-% --- Earlier Role ---
-\item{\cventry{[YYYY--YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
-\begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
-\end{itemize}}}
-
-\end{itemize}
-
-% ============================================================
-%     EDUCATION
-% ============================================================
+\cventry{Nov 2025--Nov 2026}{Bioinformatics Specialist and Lab Assistant}{Western Sydney University}{}{}{Analysed chronic-pain proteomics data, built an analysis tool, assisted with laboratory work and contributed to manuscript writing.}
+\cventry{Dec 2025--Apr 2026}{Trade Analyst}{The Trade Desk}{}{}{Optimised multi-channel programmatic campaigns and helped clients troubleshoot performance issues.}
+\cventry{Oct 2024--Dec 2025}{AI Data Specialist}{Data Annotation}{}{}{Reviewed biomedical AI responses for scientific accuracy and corrected errors in AI-generated code.}
+\cventry{Oct 2023--Oct 2024}{Data Analyst}{Semetrical}{}{}{Built ML models and dashboards, automated work in Python and trained clients. Won a major new account through client training. Increased project profitability by over 140\% through changes to subcontracting and resource allocation.}
+\cventry{Sep 2021--Dec 2021}{Research Assistant}{University of Birmingham}{}{}{Coordinated study participants, gathered data and performed statistical analysis.}
+\cventry{Jul 2020--Jul 2021}{Artificial Intelligence Fellow}{R42 Group}{}{}{Worked on commercial NLP applications, led a team researching neural decoding and presented findings to internal and external audiences.}
 
 \section{Education}
-\vspace{1pt}
-\begin{itemize}
+\cventry{Oct 2018--Jun 2023}{MSci Natural Sciences with Honours, First Class}{University of Birmingham}{UK}{}{Specialised in computer science, artificial intelligence, biomedical sciences and neuroscience. Earned a first for a dissertation analysing fungal genes with machine learning.}
 
-\item{\cventry{[YYYY--YYYY]}{[Degree] in [Field]}{[Institution]}{[City, Country]}{}{\vspace{1pt}
-Thesis: ``[Thesis Title].'' [Brief description of research focus.]
-}}
-
-\vspace{3pt}
-
-\item{\cventry{[YYYY--YYYY]}{[Degree] in [Field]}{[Institution]}{[City, Country]}{}{\vspace{1pt}
-[Brief description or key topics.]
-}}
-
-\end{itemize}
-
-% ============================================================
-%     LANGUAGES
-% ============================================================
-
-\section{Languages}
-\vspace{1pt}
-\begin{itemize}
-\item [Language 1] (native), [Language 2] (fluent), [Language 3] (intermediate).
-\end{itemize}
-
-% ============================================================
-%     PUBLICATIONS (optional)
-% ============================================================
-
-\section{Publications}
-\vspace{1pt}
-\begin{itemize}
-\item [Author(s)] ([Year]). [Title]. [Journal/Conference]. \href{[DOI_URL]}{DOI link}
-\end{itemize}
-
-% ============================================================
-%     HONORS AND AWARDS (optional)
-% ============================================================
-
-\section{Honors and Awards}
-\vspace{1pt}
-\begin{itemize}
-\item{\textbf{[Award Name]} -- [Event/Organization] ([Year]).}
-\end{itemize}
-
-% ============================================================
-%     REFERENCES
-% ============================================================
-
-\section{References}
-\vspace{1pt}
-\begin{itemize}
-\item{Available upon request.}
-\end{itemize}
-
+\section{Training}
+\cvitem{NIHR}{Good Clinical Practice certificate.}
 \end{document}

@@ -8,27 +8,13 @@ framework_version: 1.1.0
 
 ## Eligibility Gate — run before scoring
 
-If the candidate is not a citizen or permanent resident of the country they are applying in, run this first. It is a hard filter, not a scoring dimension, and it is separate from work-permit *timing*: timing asks "can they work the required hours yet?", eligibility asks "are they permitted to hold this job at all?". A candidate can pass timing and still be categorically excluded.
+UK work authorisation is confirmed. Canadian visa approval is targeted for February 2027 and remains pending. In Australia the candidate seeks employer sponsorship. For each role, read its specific hiring-country, residency, right-to-work, sponsorship and clearance requirements. Check where the employer allows the work to be performed, both before and after the planned move to Canada. Check the candidate's authorisation for each relevant period separately. Use the posting's exact wording and source.
 
-Read the posting's eligibility / work rights / "who can apply" section **verbatim** and classify:
+- **Compatible:** The employer allows the relevant work location and the candidate has confirmed they meet the role's requirements.
+- **Verify:** The posting is silent or ambiguous, authorisation or timing is unconfirmed, or a move would need employer approval. Keep the opportunity visible with the specific open question.
+- **Incompatible:** A stated requirement conflicts with a confirmed fact. Explain the mismatch. Treat a UK-only or Canada-only role according to the period it could cover.
 
-| Posting wording | Verdict |
-|-----------------|---------|
-| Names a **citizenship or permanent-residency requirement** ("must be a citizen of X", "permanent resident", "PR required", "full working rights" where the employer means citizen/PR) | **FAIL — hard stop.** Do not score, do not draft. Quote the exact wording back to the user. |
-| Requires a **security clearance** at any level | **FAIL** in most countries, since clearance is normally gated on citizenship. Verify the specific scheme rather than assuming. |
-| **Explicitly names** the candidate's permit class, or says "international applicants welcome", "visa holders considered", "we sponsor" | **PASS** — verified acceptance. Worth noting as a positive in the application. |
-| **Silent** on citizenship or residency | **PROCEED, but mark unverified.** Check the employer's own careers or international-applicant page before drafting. |
-
-**Two rules that are easy to get wrong:**
-
-1. **Silence is not permission.** Large graduate programs frequently gate eligibility on their own website rather than in the job ad. Highest-risk categories: professional-services firms, government and defence, banking, telecommunications, and anything touching critical infrastructure.
-2. **A company-wide "we accept international applicants" statement is not role-level permission.** The common pattern is a general welcome followed by a *named list* of the specific programs or service lines it covers. Confirm the **specific posting or stream** appears on that list before drafting.
-
-**Report an eligibility failure to the user with the quoted source** rather than silently dropping the role. They may know something about their own status that the profile does not record.
-
-If the candidate's permit also constrains *hours* or *start date* (a student visa with a term-time cap, a permit that begins on graduation), record that as a second gate under this section during `/setup`, with the specific dates. Do not merge it with the eligibility question above — they fail for different reasons and need different answers.
-
-A role that fails this gate is not scored and not drafted. Everything below applies only to roles that pass it.
+An employer's headquarters, a general international hiring statement and the word “remote” are insufficient to establish eligibility for a particular opening.
 
 ## Scoring Dimensions
 
@@ -44,9 +30,9 @@ How well do the required/preferred skills align with the candidate's capabilitie
 | 40-59 | Partial match, significant upskilling needed |
 | 0-39 | Fundamental mismatch |
 
-**Strong match areas:** [YOUR_PRIMARY_SKILLS]
-**Moderate match areas:** [YOUR_SECONDARY_SKILLS]
-**Weak match areas:** [SKILLS_YOU_LACK]
+**Strong match areas:** Proteomics data analysis, applied statistics and ML, Python, SQL, analytics, dashboards, biomedical AI evaluation and client-facing analysis.
+**Transferable skills:** Scientific writing and editing, GCP training, participant coordination, research documentation, account growth and sales negotiation.
+**Check against each posting:** Independent clinical trial management, regulatory submission writing, formal journal review, pharmaceutical territory sales, advanced SAS or production bioinformatics pipeline ownership. These are not documented in the master CV.
 
 ### 2. Experience Match (0-100)
 Does work history align with what they're looking for?
@@ -58,9 +44,9 @@ Does work history align with what they're looking for?
 | 40-59 | Adjacent experience, would need to make the case |
 | 0-39 | Unrelated experience |
 
-**Strong:** [YOUR_DIRECT_EXPERIENCE_DOMAINS]
-**Moderate:** [YOUR_ADJACENT_EXPERIENCE]
-**Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
+**Direct experience:** Bioinformatics research on chronic pain, ML research, biomedical AI evaluation, data analysis, automation, client training and account management.
+**Adjacent experience:** Medical communications and clinical research support draw on manuscript contributions, scientific accuracy review, GCP training and participant research. Pharma sales draws on client acquisition and contract negotiation.
+**Level:** Prefer entry to mid level. Compare required independence and qualifications with actual experience, including for titles without a level.
 
 ### 3. Behavioral/Culture Fit (0-100)
 Does the role and company culture match the behavioral profile?
@@ -75,10 +61,9 @@ Does the role and company culture match the behavioral profile?
 **Red flags to research:** Department disorganization, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
 
 ### 4. Location & Logistics (Pass/Fail + Notes)
-- Within commute range: PASS
-- Remote with occasional office: PASS
-- Requires relocation: FAIL (deal-breaker)
-- Frequent international travel: FLAG (discuss with user)
+- Fully remote is the primary search scope. In Australia, also consider in-person or hybrid roles with employer sponsorship for the specific vacancy. Record the country or countries from which the employer permits work.
+- Prefer roles compatible with the UK-to-Canada move. Include single-country options with the applicable period and flag occasional travel.
+- Time zones and irregular hours are acceptable. Field sales and regular office or site attendance fall outside the remote search. They can fit the Australian sponsorship search.
 
 ### 5. Career Alignment & Motivation (0-100)
 Does this role advance career goals and contain tasks that energize?
@@ -90,20 +75,9 @@ Does this role advance career goals and contain tasks that energize?
 | 40-59 | Decent job but doesn't build toward career goals |
 | 0-39 | Dead end or backwards step |
 
-**Career goals:**
-- [YOUR_CAREER_GOAL_1]
-- [YOUR_CAREER_GOAL_2]
-- [YOUR_CAREER_GOAL_3]
+**Career goals:** Remote bioinformatics is the first choice. Other medical research and pharmaceutical work is a priority, including clinical trials, biostatistics, medical writing, content editing, publication review and sales. After the three medical and pharmaceutical priorities, prefer remote ML and AI, then remote marketing, then general Python development and broader data work. For ML roles, look for evidence from applied modelling, NLP and biomedical AI evaluation. For marketing, match the channel and duties to experience in programmatic campaigns, tracking, client analytics, SEO, PPC, content or email.
 
-**Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energize* you. Consider:
-- Tasks that energize: [YOUR_ENERGIZING_TASKS]
-- Tasks that drain: [YOUR_DRAINING_TASKS]
-- Non-task factors: leadership style, department culture, company values, degree of autonomy
-
-**Life situation alignment:** Consider personal constraints:
-- **Security**: [YOUR_FINANCIAL_SITUATION_CONTEXT]
-- **Flexibility**: [YOUR_SCHEDULE_CONSTRAINTS]
-- **Professional development**: [YOUR_GROWTH_PRIORITIES]
+Use those stated priorities when assessing motivation. Salary expectations, management preferences and specific draining tasks are unspecified.
 
 ### 6. Salary Benchmark (Optional)
 

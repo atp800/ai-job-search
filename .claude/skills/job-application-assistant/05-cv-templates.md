@@ -116,11 +116,17 @@ When the role sits outside your home domain, **lead with the domain-transfer arg
 **Create 2-3 profile statement templates for your main role types:**
 
 <!-- SETUP: These are populated based on your background -->
-**For [YOUR_PRIMARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_1]
+**Bioinformatics and biostatistics**
+> At Western Sydney University I analysed chronic-pain proteomics data using limma and logistic regression and built a reusable analysis tool. My first-class MSci dissertation explored fungal genes through machine learning.
 
-**For [YOUR_SECONDARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_2]
+**Clinical research and medical communications**
+> I contributed to a chronic-pain research manuscript and evaluated biomedical AI responses for scientific accuracy. My research experience includes coordinating study participants and working to study protocols, supported by NIHR Good Clinical Practice training.
+
+**Pharmaceutical inside sales**
+> I combine biomedical research experience with client account development. At Semetrical I won a new account through a client training session and negotiated contracts for analytics services.
+
+**Python and data**
+> At Semetrical I automated recurring work in Python, built models and dashboards, and translated the results into decisions about client spend.
 
 Statements labeled *[Used for: <company>_<role>]* were extracted from archived application drafts by `/setup` Path A. They are **phrasing references, never fact sources**: when drafting from one, every factual claim still comes from `01-candidate-profile.md` - a past tailored draft does not vouch for its own accuracy.
 

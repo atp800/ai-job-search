@@ -30,56 +30,15 @@ The step-by-step instructions and triggers for tasks (setup, scrape, rank, apply
 
 ## Candidate Profile
 
-### Identity
-- **Name:** [YOUR_NAME]
-- **Location:** [CITY, COUNTRY]
-- **Languages:** [LANGUAGES]
-- **CV language:** [LANGUAGE]
+Andreas Panayiotou holds a first-class MSci in Natural Sciences from the University of Birmingham, specialising in computer science, AI, biomedical sciences and neuroscience. His experience includes chronic-pain proteomics and manuscript work at Western Sydney University, biomedical AI evaluation at Data Annotation, and Python automation, analytics and client account development at Semetrical. The detailed profile and contact details are in `.claude/skills/job-application-assistant/01-candidate-profile.md`. Build each application from the evidence most relevant to its posting.
 
-- **Status:** [EMPLOYMENT_STATUS]
-- **LinkedIn headline:** "[HEADLINE]"
-- **LinkedIn:** [URL]
-- **GitHub:** [URL]
-- **Email:** [EMAIL]
+CV language: English (default for the English-language master CV).
 
-### Education
-- **[DEGREE]** ([YEARS]) - [UNIVERSITY]
-  - [NOTES]
+### Current search
 
-### Professional Experience
-- **[TITLE]** ([DATES]) - **[COMPANY]** ([LOCATION])
-  - [BULLET_POINT]
-  - [BULLET_POINT]
+For requests to add, show, change or remove companies from search settings, use the Target company settings section of `.claude/commands/setup.md`. The saved list supplements the normal job boards.
 
-### Technical Skills
-- **Primary:** [SKILLS]
-- **Secondary:** [SKILLS]
-- **Domain:** [DOMAINS]
-- **Software:** [SOFTWARE]
-
-### Certifications
-- **[CERT_NAME]** - [ISSUER] - completed [DATE]
-
-### Publications
-- [PUBLICATION_DETAILS]
-
-### Awards
-- [AWARD_DETAILS]
-
-### Behavioral Profile
-- **[TRAIT]** - [DESCRIPTION]
-- **Strengths:** [STRENGTHS]
-- **Growth areas:** [WEAKNESSES]
-- **Thrives in:** [ENVIRONMENTS]
-
-### What Excites You
-- [INTEREST_1]
-- [INTEREST_2]
-
-### Target Sectors
-- [SECTOR_1]
-- [SECTOR_2]
-
-### Deal-breakers
-- [DEAL_BREAKER_1]
-- [DEAL_BREAKER_2]
+- Seek fully remote entry- and mid-level roles, plus Australian roles offering visa sponsorship with remote, hybrid or in-person work. Bioinformatics is the first choice, including analyst and research data roles with equivalent duties.
+- Prioritise medical research and pharmaceuticals, including clinical trials, biostatistics, medical writing, content editing, publication review and pharma sales. Include remote machine learning and marketing roles across industries in routine searches. General Python development and broader data work are the lowest search priority.
+- UK work rights are confirmed. Search UK and international remote openings, including US-headquartered employers. Canadian visa approval is a target for February 2027, with timing and permission pending. Keep Canada-only roles as future options where start dates fit. Prefer roles that can continue across the planned move to Canada. Time zones and irregular hours are acceptable.
+- Check the specific role's permitted work countries independently of the employer's headquarters and the candidate's own work authorisation. Record location and eligibility uncertainties in each shortlist.

@@ -12,32 +12,16 @@ Structure answers as: **Situation** (context), **Task** (your responsibility), *
 
 Keep answers to 1-2 minutes. Be specific. End with what you learned or would do differently.
 
-## Ready-Made STAR Examples
+## STAR examples from the combined CV
 
-<!-- These are populated by /setup from your actual experience. Below are templates showing the format. -->
+| Situation | Task | Action | Result |
+|---|---|---|---|
+| Western Sydney University chronic-pain research | Analyse proteomics data for candidate biomarkers | Applied logistic regression, mathematical modelling and limma analysis | Created a reusable analysis tool and contributed to manuscript writing |
+| Semetrical client project | Improve project profitability | Changed subcontracting and resource allocation | Project profitability increased by more than 140% |
+| Semetrical client training | Deliver analytics training | Used the training session to develop a new account opportunity | Acquired a major new account |
+| University interdisciplinary research project | Lead a team of five | Led the group through the project | The team received the highest mark in its cohort |
 
-### 1. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT - what was happening, what was the problem]
-**T:** [YOUR RESPONSIBILITY - what you specifically needed to do]
-**A:** [WHAT YOU DID - specific actions, tools, methods]
-**R:** [OUTCOME - measurable results, adoption, impact]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
-
-### 2. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
-
-### 3. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
-
-<!-- Add more STAR examples as needed. Aim for 4-6 covering different competencies. -->
+Before using these aloud, add a concrete decision you made and how you evaluated it. For the profitability example, be ready to explain the baseline and period.
 
 ## Common Tough Questions
 

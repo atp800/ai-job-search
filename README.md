@@ -251,6 +251,8 @@ If you prefer editing files directly instead of using `/setup`:
 
 ### Updating your search queries
 
+To include specific employers on each search, tell your agent “Add IQVIA and Parexel to my target companies” or provide their public careers URLs. Use “Show my target companies” or “Remove Parexel from my target companies” to manage [the saved list](.claude/skills/job-scraper/companies.json). Each entry has a company `name` and a `careers_url`. Searches check the list alongside normal job boards and report any sites they could only partially check. To inspect supported Greenhouse and Lever boards from the command line, run `python tools/company_jobs.py`. Other sites are checked by the agent during the search.
+
 As your priorities evolve, you can reconfigure just the job search without re-running the full profile setup:
 
 ```

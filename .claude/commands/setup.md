@@ -8,6 +8,8 @@ There are three paths into setup. Step 0 picks the right one; all three converge
 
 ## Step 0: Welcome & Choose Path
 
+For a request to add, list, update or remove target companies (including `/setup --section companies`), go straight to **Target company settings** below. Apply the requested changes and finish there.
+
 If `$ARGUMENTS` contains `--section <name>`, skip directly to that section in Path C for an update-only flow. Do not run the path-selection prompt below.
 
 Otherwise, before greeting the user, scan the `documents/` folder. Use Glob with `documents/**/*` and count files per subfolder (`cv/`, `linkedin/`, `diplomas/`, `references/`, `applications/`).
@@ -323,6 +325,12 @@ Ask about:
 
 This proactive suggestion step helps users discover career paths they might not have considered.
 
+### Target company settings
+
+Read `.claude/skills/job-scraper/companies.json` (a missing file in an older checkout means an empty list). Store each requested employer as an object with `name` and `careers_url`. Use the public listings URL, including an employer-specific ATS board URL when linked from the employer's own site. Given just a name, look up the official careers page. If uncertain, save the name with a null URL and tell the user what needs resolving.
+
+Merge additions by case-insensitive trimmed name or matching careers URL (ignore a trailing slash; never match on an empty URL). Update a changed URL on the existing row. Preserve unrelated employers and settings. Remove only explicitly named rows. Listing is read-only. For updates, re-read the current file before writing valid JSON and verify the saved entries. Report the changes and any unresolved names.
+
 ---
 
 ## Step 3: Generate Profile Files
@@ -356,6 +364,7 @@ Create STAR examples from their actual experience (at least 3-4 examples). Path 
 Replace placeholder personal data with their actual name, contact info, and add their education and most recent experience entries.
 
 ### 8. Generate `.claude/skills/job-scraper/search-queries.md`
+Persist any companies collected in Section 9 using **Target company settings**. A skipped answer preserves the saved list.
 Replace all placeholder tokens in the search queries file with the user's actual information from Section 9 (or the equivalent follow-up questions in Path A's Step A7):
 - Replace `[YOUR_PRIMARY_ROLE_TYPE]`, `[YOUR_PRIMARY_JOB_TITLE]`, etc. with actual role titles
 - Replace `[YOUR_KEY_SKILL]`, `[YOUR_DOMAIN_KEYWORD_1]`, etc. with actual skills and domain terms

@@ -44,7 +44,7 @@ Optional arguments:
 
 ### Step 1: Search
 
-Read `search-queries.md` (this directory) for the search strategy. By default, run the top 3 priority query categories. If the user said "broad", run all categories. If the user specified a focus area (e.g. "data science"), prioritize queries from that category.
+Read `search-queries.md` (this directory) for the search strategy. Use its configured default search when present, otherwise run the top 3 priority query categories. If the user said "broad", run all categories. If the user specified a focus area (e.g. "data science"), prioritize queries from that category.
 
 **Use the installed CLI tools as the primary search mechanism.** Fall back to `WebSearch` only for portals that do not have a CLI skill, or if `bun` is unavailable on the system.
 
@@ -82,6 +82,18 @@ Use `WebSearch` for:
 - When bun is unavailable (Step 1a failed)
 
 Use the site-specific query strings from `search-queries.md` directly as WebSearch queries for these portals.
+
+When the strategy lists **Default web sources**, run the applicable rows even when the portal CLIs succeed. Follow each row's search route. If a result is a board search page, open the individual vacancy before including it. Feed verified postings into the usual eligibility and deduplication steps. In the results summary, report coverage per configured source: new matches, checked with no new verified matches, or unavailable (give the reason). Count a Google Jobs check only when its Jobs view was accessible.
+
+#### 1d. Search saved companies alongside portals
+
+On default, broad and focused searches, read `companies.json` next to this skill. An absent or empty list adds no sources. Health-only runs skip this step. From the project root run `python tools/company_jobs.py` for a populated list (use `python3` where appropriate). For large boards, read the JSON output locally and select relevant titles and synonyms before fetching individual postings. Each company has one result:
+
+- `listed`: the helper retrieved the employer's published openings. Select candidates using this run's role and location criteria. Verify individual postings for eligibility, publication date and sponsorship. Unspecified locations or dates need inspection.
+- `resolve_url`: look up the employer's official careers page, following the setup rules for saving a verified URL. If ambiguous, report the unresolved company and continue.
+- `check_web` or `unavailable`: visit the employer's careers page directly. Follow its vacancies link to its own ATS tenant, search the relevant titles and locations, and inspect further result pages where available. If the helper cannot run, use this route for each company. If access or pagination is incomplete, use employer-scoped web search to find individual postings and report partial coverage.
+
+Merge candidates into Step 2 with the job-board results, preferring the direct vacancy URL when a board lists the same opening. Apply the same seen-jobs and application-tracker checks. Use the direct URL for later detail lookups via WebFetch.
 
 ### Step 2: Fetch & Parse
 
@@ -193,6 +205,8 @@ the skill.
 ## New Job Matches - YYYY-MM-DD
 
 Found X new positions (Y high, Z medium, W low match).
+
+When target employers are configured, show a coverage line for each: employer name, careers URL, and new matches / checked with no new matches / partially checked / unavailable. Include the reason for incomplete checks, even when no jobs were returned.
 
 skipped (disabled): <portal-name>, <portal-name>
 
