@@ -22,6 +22,7 @@ user_invocable: true
 | `html-report` | `.claude/commands/html-report.md` |
 | `add-portal` | `.claude/commands/add-portal.md` |
 | `add-template` | `.claude/commands/add-template.md` |
+| `outlook-sync` | `.claude/commands/outlook-sync.md` |
 | `gmail-sync` | `.claude/commands/gmail-sync.md` |
 | `notion-sync` | `.claude/commands/notion-sync.md` |
 | `reset` | `.claude/commands/reset.md` |

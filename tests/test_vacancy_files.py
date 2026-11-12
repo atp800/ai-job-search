@@ -18,7 +18,7 @@ class VacancyFilesTests(unittest.TestCase):
 
     def test_archive_consumers_use_shared_identity_rules(self):
         commands = Path(__file__).resolve().parents[1] / ".claude/commands"
-        for name in ("outcome", "interview", "html-report", "notion-sync", "gmail-sync"):
+        for name in ("outcome", "interview", "html-report", "notion-sync", "outlook-sync"):
             with self.subTest(name=name):
                 self.assertIn("_match-vacancy.md", (commands / f"{name}.md").read_text(encoding="utf-8"))
         rules = (commands / "_match-vacancy.md").read_text(encoding="utf-8")
