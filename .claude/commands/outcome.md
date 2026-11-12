@@ -3,7 +3,7 @@
 You are recording what happened to a job application: progress updates (interview invitations, stages completed, offers) and final resolutions (hired, rejected, no response). The data lands in two places the framework already reads but nothing systematically writes:
 
 - `job_search_tracker.csv` - the status column that `/scrape` and `/rank` use for dedup and exclusion
-- `documents/applications/<company>_<role>/` - the per-application archive (posting, submitted drafts, `outcome.md`) that `/setup` Path A mines to calibrate `04-job-evaluation.md` and surface STAR candidates
+- `documents/applications/<company>_<role>_<job_id>/` - the per-application archive (posting, submitted drafts, `outcome.md`) that `/setup` Path A mines to calibrate `04-job-evaluation.md` and surface STAR candidates
 
 `/outcome` writes the data; `/setup` interprets it. This command never edits the evaluation framework or profile files itself.
 
@@ -18,7 +18,7 @@ Follow these steps **in order**.
 `$ARGUMENTS` may contain:
 
 - Nothing → list open applications and ask which one to update
-- A company name (optionally with a role), e.g. `/outcome acme` or `/outcome acme ml engineer` → target that application
+- A submission confirmation, company, role or job ID targets an application. For a newly confirmed submission record status `applied`, archive the submitted versions and posting, and initialise the outcome as `in_progress`; there is no need to wait for an employer response.
 - `followup` → enter the follow-up branch (Step 2b) over every quiet open application, using the default threshold of **10 days**
 - `followup <N>`, e.g. `/outcome followup 14` → follow-up branch with an N-day threshold
 - `followup <company>`, e.g. `/outcome followup acme` → draft a follow-up for that application now, regardless of threshold
@@ -27,13 +27,28 @@ Follow these steps **in order**.
 
 ## Step 1: Load State and Identify the Application
 
-1. Read `job_search_tracker.csv`. If it does not exist, create it with the standard header:
+When logging a posting, use `.claude/commands/_match-vacancy.md` before matching by name or allocating a generated ID. A distinct employer requisition starts a new row even if company and role already match. A user-supplied local ID can select its existing row for an update.
+
+1. Read `job_search_tracker.csv`. If it does not exist, create it with the standard header. If it exists with the older thirteen-column header (ending at `source`), extend the header line once with `job_id,country,location,industry`; leave every existing row untouched - missing trailing values read as empty. Never reorder columns and never rewrite existing rows:
    ```
-   date,company,sector,role,role_type,channel,status,contact_person,fit_rating,notes,cv_file,cover_letter_file,source
+   date,company,sector,role,role_type,channel,status,contact_person,fit_rating,notes,cv_file,cover_letter_file,source,job_id,country,location,industry
    ```
-2. **With an argument:** match rows case-insensitively on company (and role, if given). One match → proceed. Several → list them and ask. None → the application was made outside the workflow; collect company, role, date applied, channel, and posting URL from the user and add a tracker row.
+2. **With an argument:** match rows case-insensitively on company (and role, if given). An argument containing a row's exact `job_id` matches that row first, which disambiguates two applications to the same company and role. One match → proceed. Several → list them (with their `job_id` values) and ask. None → the application was made outside the workflow; collect company, role, date applied, channel, posting URL, and the `job_id`, `country`, `location` and `industry` values the posting states - generating a `GEN` ID when it states none - then add a tracker row.
 3. **Without an argument:** list all rows whose status is not final (not hired / rejected / no response / withdrawn / offer declined) as a numbered table (company, role, date applied, current status, days quiet, follow-ups sent) and ask which to update. The two derived columns come straight from existing data: **days quiet** counts from the row's `date` or the latest dated entry in `notes`, whichever is more recent; **follow-ups sent** counts the `followed up YYYY-MM-DD` markers in `notes`. If any open row is 10+ days quiet with fewer than two follow-ups sent, add one line under the table: "Some of these have gone quiet - want a follow-up draft? (Step 2b)". If every row is resolved, say so and stop.
-4. Derive the archive folder name: `documents/applications/<company>_<role>/` - lowercase, underscores for spaces (the convention documented in `documents/README.md`). Check whether the folder and an `outcome.md` already exist - if so, you are updating, not creating.
+4. Resolve the exact archive for the selected row. Use the working-document and archive rules in `.claude/commands/_match-vacancy.md`.
+
+---
+
+### Tracker row fields
+
+`job_id`, `country`, `location` and `industry` are the four columns appended after `source` in the header above. They are additive: rows written before they existed stay valid, so read columns by name, never by position.
+
+- **`job_id`** - the employer's own posting/requisition ID, verbatim (`R-12345`, `JR102938`), when the posting states it as an identifier or it is the ID segment of the posting's ATS URL (Greenhouse, Lever, Workday, SmartRecruiters). If several IDs are plausible, pick one: prefer the value labelled as the posting or requisition identifier, then the ATS URL's ID segment, and name the choice in the Step 6 confirmation so the user can correct it. Never derive an ID from a year, salary, deadline, phone number or other incidental digits. **When no obvious ID exists, generate one as `GEN-YYYYMMDD-NN`** - the row's `date` (today's date when it is not a full ISO date) plus the lowest two-digit sequence from `01` to `99` not already used by an archive folder or tracker row from that date. Never leave `job_id` empty on a new row and never reuse a generated ID. In the folder name the rule lowercases it to `gen-`; the tracker keeps `GEN`.
+- **`country`** - the country the role is hired in, as the posting states it, not the employer's headquarters. Empty when unstated.
+- **`location`** - the city or area as posted, or the work-location designation when no city is given: `Remote`, `Remote (UK)`, `Hybrid - Sydney`, `Sydney, NSW`. Keep the posting's wording; never turn "remote" into a city or invent a city for a remote role.
+- **`industry`** - the employer's industry (`pharmaceuticals`, `higher education`, `medical communications`). `sector` remains the broad sector the dashboard charts; when both describe the same thing, write the same value rather than inventing a second taxonomy.
+
+Write these when the row is created, and backfill an empty `country`, `location` or `industry` cell when the posting or its ATS URL plainly states the value. `job_id` is assigned at creation only - never backfilled onto a legacy row (see Step 4). Never overwrite a value already recorded, and never guess to fill a cell: empty is honest, with `job_id` the one exception, which is never empty on a new row.
 
 ---
 
@@ -73,7 +88,7 @@ Enter this branch from the `followup` argument (Step 0) or from the offer under 
 2. Apply the writing style rules from `03-writing-style.md` (no cliches, no em-dashes, warm but direct), and match the application's language - draw the register from the archived cover letter.
 3. Write roughly **60 to 120 words**: address the `contact_person` from the tracker if present (otherwise the team, in the application's language); one sentence restating interest in the specific role; one concrete value-reminder drawn from the submitted materials; one polite question about the timeline. No pressure, no "just checking in" filler.
 4. Shape it for the `channel` column: email (with a subject line reusing the application's headline), LinkedIn message (shorter, no subject), or portal message (plain text).
-5. Present the draft and iterate until the user is happy.
+5. Run `.claude/commands/_validate-application.md` before handing over the follow-up or a revised version. Include the submitted documents as read-only context. Present the checked draft for the user's review.
 
 **Logging.** Once the user confirms they will send it (or have sent it), log it in the same turn - an unlogged follow-up breaks the next run's quiet-days math:
 
@@ -88,9 +103,9 @@ If the user decides not to send, log nothing.
 
 ## Step 3: Archive the Application Materials
 
-Create or update `documents/applications/<company>_<role>/`. All content here is personal data - the folder is already gitignored (`documents/applications/**`), so nothing needs redacting.
+Create or update `documents/applications/<company>_<role>_<job_id>/`. All content here is personal data - the folder is already gitignored (`documents/applications/**`), so nothing needs redacting.
 
-1. **`cv_draft.tex` and `cover_letter.tex`** - copy (never move) the submitted files. Locate them via the tracker row's `cv_file`/`cover_letter_file` columns; if those are empty, look for `cv/main_<company>*.tex` and `cover_letters/cover_<company>_*.tex`. If a file already exists in the archive, leave it - the archived version is what was actually submitted. If no draft files exist (application made outside `/apply`), skip with a note.
+1. Copy the exact submitted CV and letter identified by the tracker paths or the user, preserving the submitted source format and any supplied final PDFs. Use the archive names `cv_draft` and `cover_letter` with their actual extensions. If paths are absent, resolve the exact draft stem for this vacancy and verify the submitted version; ask if ownership or version is uncertain. Never pick a company-wide filename match. Preserve existing archived files.
 2. **`job_posting.md`** - if it already exists, leave it. Otherwise try WebFetch on the tracker row's `source` URL and save the posting text. If the URL is dead (postings expire fast - this is exactly why the archive matters), ask the user to paste the posting, or write a stub noting the posting is unavailable. **Never reconstruct a posting from memory.**
 3. **`outcome.md`** - write or update it in exactly the format documented in `documents/README.md`, so `/setup` Path A parses it without special cases:
 
@@ -121,7 +136,7 @@ Update rules: tick stage checkboxes as they are reached (add the date in parenth
 
 ## Step 4: Update the Tracker
 
-Update the matched row's `status` column (e.g. `applied` → `interview` → `offer` → `hired` / `rejected` / `no response` / `offer declined` / `withdrawn`) and append a short dated note to the `notes` column. Never restructure the CSV, reorder rows, or touch other rows.
+Update the matched row's `status` column (e.g. `applied` → `interview` → `offer` → `hired` / `rejected` / `no response` / `offer declined` / `withdrawn`) and append a short dated note to the `notes` column. Write `job_id`, `country`, `location` and `industry` when the row is created; backfill `country`, `location` and `industry` when a cell is still empty and the archived posting or its ATS URL plainly states the value. Do not backfill `job_id` onto a legacy row whose archive folder is still suffixless - the folder is never renamed to match. Never overwrite an existing value, never restructure the CSV, reorder rows, or touch other rows.
 
 ---
 
@@ -141,7 +156,7 @@ Summarize what was recorded:
 
 > **Outcome recorded for <Role> at <Company>.**
 >
-> - `documents/applications/<company>_<role>/outcome.md` - status: <status>, <what changed>
+> - `documents/applications/<company>_<role>_<job_id>/outcome.md` - status: <status>, job ID: <job_id>, <what changed>
 > - Archived: <which of cv_draft.tex / cover_letter.tex / job_posting.md were copied or fetched, and which were skipped and why>
 > - Tracker: status → <new status>
 >

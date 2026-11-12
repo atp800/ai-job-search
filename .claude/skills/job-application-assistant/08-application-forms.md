@@ -8,6 +8,8 @@ framework_version: 1.0.0
 
 This file governs that third artifact. It is not a document you compile; it is text the candidate pastes.
 
+Use the working-document and archive rules in `.claude/commands/_match-vacancy.md`.
+
 ## When this applies
 
 Trigger it whenever a posting or portal asks for any of:
@@ -20,7 +22,7 @@ Trigger it whenever a posting or portal asks for any of:
 
 ## The rule that governs everything here
 
-**Every claim in a form field must already be defensible from the same sources the CV and cover letter are grounded against** — the union of `01-candidate-profile.md`, the master CV (`cv/main_example.tex`), and `CLAUDE.md`'s Candidate Profile section, with a claim grounded if ANY of the three supports it. The interviewer reads the form alongside the CV. A form field is not a place to introduce new claims, inflate scope, or fill space — it is a place to *select* from what is already true and arrange it for the question asked.
+**Every claim in a form field must already be defensible from the same sources the CV is grounded against** — the union of `01-candidate-profile.md`, the master CV (`cv/main_example.tex`), and `CLAUDE.md`'s Candidate Profile section, with a claim grounded if ANY of the three supports it. The interviewer reads the form alongside the CV. A form field is not a place to introduce new claims, inflate scope, or fill space — it is a place to *select* from what is already true and arrange it for the question asked.
 
 All accuracy rules from `05-cv-templates.md` and `03-writing-style.md` apply unchanged.
 
@@ -68,7 +70,7 @@ Prefer the version that **maps the candidate's problem onto the employer's probl
 
 ## Output format
 
-Save to a plain `.txt` file the candidate can copy from, alongside their other application material for that employer. One file per employer, containing every field that employer asked for.
+Save one plain `answers_<draft_stem>.txt` per vacancy alongside its working application material, containing every field requested for that posting.
 
 Include:
 - A header naming the employer and the roles it covers
@@ -78,6 +80,8 @@ Include:
 - A dates quick-reference, so date fields stay consistent without re-deriving them
 
 ## Verification before handing it over
+
+After the field checks below, run `.claude/commands/_validate-application.md` on the final answers or supporting statement alongside the other current application documents.
 
 - [ ] Every factual claim traces to the union of `01-candidate-profile.md`, the master CV (`cv/main_example.tex`), and `CLAUDE.md`'s Candidate Profile section
 - [ ] No claim contradicts the CV or cover letter submitted for the same role

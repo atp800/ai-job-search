@@ -102,7 +102,7 @@ Read each document found in Step A1. Process subfolders in this order: `cv/`, `l
 
 **`references/` documents:** referee name, title, organization; full text of the letter (extract specific quotes); competency language used.
 
-**`applications/<company>_<role>/` subfolders:**
+**`applications/<company>_<role>_<job_id>/` subfolders** (folders created before IDs were recorded have no suffix - treat both forms the same):
 - `job_posting.md`: role title, company, required skills, experience level, sector, role type
 - `cover_letter.tex`: opening structure, body structure, bullet style, closing, recurring phrases
 - `cv_draft.tex`: profile statement, section ordering, framing for this role type

@@ -4,27 +4,40 @@ framework_version: 1.0.1
 
 # Cover Letter Templates and Tailoring Guide
 
+Use the working-document and archive rules in `.claude/commands/_match-vacancy.md`.
+
+## Choosing evidence and wording from the Super Cover Letter
+
+Before drafting or revising a letter, read the candidate's paragraph collection at `documents/cover_letters/super-cover-letter.md` from the project root. Its numbered passages preserve the candidate's wording. Use them for evidence and voice with any active template. If the collection is unavailable, mention this to the user and draft from the profile and writing guide.
+
+1. Identify the responsibilities that matter most in this posting. Look across the whole collection for examples of doing that work, including equivalent duties described with different terminology. A paragraph about training a client, for example, may support either technical communication or winning an account.
+2. Group plausible passages by the underlying experience and the point each would make to this employer. Choose the version with the most relevant actions, evidence of the candidate's own contribution and useful outcome. A shorter, more precise account can be the better choice. Keep the passage number with your drafting notes.
+3. Reuse a whole paragraph where it earns its space. Preserve its wording and sentence structure, editing only as needed for accuracy, grammar, the new audience, transitions, language and length. Check for old employers addressed as “you”, former role titles, attachment references and time-relative wording. Escape special characters for the active template (e.g. `140\%` in LaTeX).
+4. When a paragraph mixes several projects or its framing suits a different job, draw on the specific action, skill or outcome it documents and write a fresh, focused sentence. A strong letter may use only details from the collection. Preserve distinctions such as participating in a study, conducting it, or wanting to learn a method. Use the current profile for time-sensitive or conflicting details and leave unresolved claims out.
+5. Use the passages as examples of how the candidate speaks even when writing entirely new prose. Notice their preferred verbs, British spelling, sentence length and how they link a method or action to its significance. Match those choices where natural in the posting's language and follow `03-writing-style.md`.
+6. Read the assembled letter from opening to closing, including any bullets. For each claim, ask what new evidence or reasoning it contributes. Give each anecdote and reason for applying one home; merge or cut repeats even if the wording differs. If a project supports several requirements, connect them in its strongest passage. Keep paragraph numbers and drafting notes out of the submitted letter.
+
 ## Template: Custom cover.cls (XeLaTeX)
 
 Cover letters use a custom LaTeX document class (`cover.cls`) with Lato/Raleway fonts.
 
-**Output file:** `cover_letters/cover_<company>_<role>.tex`
+**Output file:** `cover_letters/cover_<draft_stem>.tex`
 **Compile with:** XeLaTeX (cover.cls requires fontspec)
 **Font directory:** `cover_letters/OpenFonts/fonts/`
 
 ### Compile command
 
 ```bash
-cd cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
+cd cover_letters && xelatex -interaction=nonstopmode cover_<draft_stem>.tex
 ```
 
-Expected output: `Output written on cover_<company>_<role>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
+Expected output: `Output written on cover_<draft_stem>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
 
 ## Compile-and-Inspect Loop (MANDATORY)
 
 After writing the cover letter and before presenting to the user, always compile and visually inspect the PDF. Iterate until the layout is clean:
 
-1. Run `xelatex -interaction=nonstopmode cover_<company>_<role>.tex`
+1. Run `xelatex -interaction=nonstopmode cover_<draft_stem>.tex`
 2. Confirm page count is exactly 1 and compile succeeded
 3. Read the PDF via the Read tool and visually check: signature fits at the bottom, no text cut off, bullet font matches body
 

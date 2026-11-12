@@ -39,7 +39,7 @@ Optional arguments:
 ### Step 0: Load State
 
 1. Read `job_scraper/seen_jobs.json` (create if missing - start with `{"seen": {}}`)
-2. Read `job_search_tracker.csv` to extract already-applied companies+roles
+2. Read `job_search_tracker.csv` for previously tracked vacancies, including their posting IDs and source URLs.
 3. Read `search-queries.md` (this directory) for the search strategy
 
 ### Step 1: Search
@@ -107,15 +107,13 @@ command (see its SKILL.md — do not guess flags) to extract **key requirements*
 **From WebSearch results:** Use `WebFetch` on the posting URL and extract the same
 fields manually.
 
-For every candidate:
-- Skip if the URL or company+title combo already exists in `seen_jobs.json`
-- Skip if the company+role already appears in `job_search_tracker.csv`
+For every candidate, apply `.claude/commands/_match-vacancy.md` against this run's results, `seen_jobs.json` and the tracker. Suppress confirmed duplicates and retain ambiguous matches for the shortlist.
 
 ### Step 2.5: Mass-Posting Detection (within this run)
 
 A distribution pattern worth flagging to the user as a caution signal, not as an accusation against the employer - it describes how a listing is being distributed, not a verdict on whether the company is legitimate. It alone proves nothing is wrong (companies do legitimately hire the same role across several cities); flag it so the user can factor it in when deciding whether to invest time, don't downgrade fit or silently exclude the result because of it.
 
-If two or more results in this run's pool (from the same company, or sharing the same req/job ID visible in the URL or title) have substantially the same description and differ only in city/location/title, don't present them as separate rows. Consolidate into a single row and note the spread, e.g. "posted identically across 6 cities (BR, MX, GT)".
+Consolidate confirmed copies and note their spread, e.g. "posted identically across 6 cities (BR, MX, GT)". For similar adverts with distinct requisitions or uncertain identity, flag the distribution pattern and keep the vacancies individually selectable.
 
 ### Step 3: Quick Fit Assessment
 
@@ -127,11 +125,11 @@ For each new job, do a rapid fit check (NOT the full evaluation from `04-job-eva
 
 ### Step 4: Deduplicate & Store
 
-1. Add ALL fetched jobs (new and skipped) to `seen_jobs.json` with structure:
+1. Reuse a matching seen entry's key, first-seen date and status. Add newly discovered URLs to its aliases. For a new vacancy use a unique vacancy-specific URL or employer-scoped requisition key; if neither is available allocate an unused local key. Preserve legacy keys. Save the employer requisition when verified, URL aliases, location and available distinguishing details for future comparisons.
 ```json
 {
   "seen": {
-    "<url_or_company_title_key>": {
+    "<vacancy_key>": {
       "title": "...",
       "company": "...",
       "url": "...",
@@ -148,7 +146,7 @@ The `portal` field records which CLI skill produced the job (results are already
 
 `/rank` extends this schema additively: ranked entries also carry `rank_score` (0–100 overall score), `rank_verdict` (fit band, e.g. "strong fit"), and `rank_date` (ISO date of ranking). The `status` field is set to `"ranked"`. Do not drop any of these fields when re-writing entries.
 
-2. Only present jobs NOT already in the seen list or tracker.
+2. Present new vacancies and label uncertain matches according to the matching rules.
 
 ### Step 4.5: Generate Referral Contact Links (High & Medium Fit Only)
 
@@ -241,7 +239,9 @@ If the run found many new jobs (roughly 8+), also suggest `/rank` - it batch-sco
 
 ### Step 6: Update Tracker (Optional)
 
-If the user decides to apply to any job, add a row to `job_search_tracker.csv`.
+Before allocating an ID, apply the vacancy matching rules to the existing tracker. Reuse a confirmed match and its existing ID. Resolve a possible duplicate before inserting a new row.
+
+When the user confirms submission, invoke `/outcome` to record the application once with its actual submission date and submitted files. Choosing a vacancy or drafting materials alone keeps it in the shortlist.
 
 ---
 

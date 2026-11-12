@@ -1,0 +1,14 @@
+# Matching a vacancy
+
+Use these rules across results from this run, saved jobs and tracker rows. Compare the same employer first. A local `GEN-YYYYMMDD-NN` identifies a tracker record. Ignore it when deciding whether two adverts describe one opening. Job-board listing numbers are specific to that board.
+
+1. **Employer requisition.** Equal verified employer requisition IDs for the same employer identify the same vacancy. Different verified requisitions are separate vacancies even with identical titles and descriptions. Compare IDs issued by the same system; a board's own listing number and an employer's requisition are different kinds of identifier.
+2. **Vacancy-specific link.** Follow each board's apply link to the employer or ATS vacancy where available. Match a shared vacancy URL, including previously saved aliases. Remove known tracking parameters such as `utm_source` while retaining identity-bearing parameters such as `jobId`. A careers homepage, generic apply form or search-results URL cannot establish a match.
+3. **Missing identifiers.** Use company and title to find candidates for comparison. Compare team, location or eligible countries, contract type, dates and distinctive duties against the saved or archived advert. Treat two adverts as duplicates only with strong corroboration (for example, the same team, fixed-term end date and distinctive project). A generic template or a refreshed posting date alone is insufficient.
+4. **Ambiguous.** Keep the opening visible as **possible duplicate**, with the earlier record and a short reason. Check the original posting or ask the user to distinguish them before creating a second application row. Missing evidence in a legacy record is uncertainty.
+
+## Working documents and archives
+
+For each new draft packet, resolve the stable vacancy key in `.claude/commands/_validate-application.md` and run `python tools/draft_stem.py "<company>" "<role>" "<vacancy-key>"`. Use its output as `<draft_stem>` in every draft, compile command, review, supporting answer and handoff. Reuse the same key on revisions. If two pasted postings cannot be distinguished, resolve their identity before writing. If an existing filename belongs to an unconfirmed application, preserve it and resolve the conflict. Record the exact submitted draft paths when logging the application. The filename digest identifies working files and does not populate the employer requisition field.
+
+For every archive read or write, derive the exact folder from the selected row using the naming convention in `documents/README.md`. A row with an ID owns only its ID-suffixed folder. If missing, a reader reports missing context and a writer creates that exact folder. Only an ID-less legacy row can use its suffixless folder, and only if ownership is unambiguous. If different raw IDs or rows map to the same filesystem name, flag the collision and resolve it before attaching or writing files. Preserve existing archives.

@@ -25,7 +25,9 @@ This repo is a job application workspace. The AI agent acts as a career advisor 
 The step-by-step instructions and triggers for tasks (setup, scrape, rank, apply, upskill, interview) are defined in the `.claude/commands/` directory.
 
 - Read `.claude/skills/job-application-assistant/01-candidate-profile.md` for the candidate's detailed identity, education, experience, and technical skills.
+- For every cover letter, including a standalone draft or revision, use the paragraph selection and voice guidance in `.claude/skills/job-application-assistant/06-cover-letter-templates.md`. The candidate's searchable Super Cover Letter is `documents/cover_letters/super-cover-letter.md`.
 - Read `.claude/commands/_shared.md` for the core workflow and the mandatory Verification Checklist for all generated documents.
+- Before releasing any employer-facing application document, including standalone requests and revisions, run the independent gate in `.claude/commands/_validate-application.md` after the document's ordinary checks. Check the application's validation status before resuming work.
 - Portal Search Skills: Job-portal search CLIs live under `.agents/skills/` in the portable Agent Skills format.
 
 ## Candidate Profile

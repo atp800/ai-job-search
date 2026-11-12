@@ -17,9 +17,9 @@ Create `reports/` if it does not exist.
 Read in parallel:
 
 1. **`job_search_tracker.csv`** — the primary source. Parse every row into a record with fields:
-   `date`, `company`, `sector`, `role`, `role_type`, `channel`, `status`, `contact_person`, `fit_rating`, `notes`, `cv_file`, `cover_letter_file`, `source`
+   `date`, `company`, `sector`, `role`, `role_type`, `channel`, `status`, `contact_person`, `fit_rating`, `notes`, `cv_file`, `cover_letter_file`, `source`, `job_id`, `country`, `location`, `industry`
 
-2. **`documents/applications/*/outcome.md`** — for each resolved application, read the outcome file to get the exact interview stages reached (the checkboxes) and any notes. Merge this into the matching tracker row by company+role fuzzy match (lowercase, ignore punctuation). If an archive exists for a row but there is no match, attach it as extra context anyway.
+2. **`documents/applications/*/outcome.md`** — join each row only to its exact archive using `.claude/commands/_match-vacancy.md`. Read its stages and notes when present. Leave unmatched context empty and report ambiguous or orphaned archives separately. Never attach another application’s notes using a fuzzy title match.
 
 Status normalisation — map tracker values to five canonical buckets before computing stats:
 - `applied` → **Active** (resume submitted, no further signal)
@@ -101,7 +101,7 @@ Build each chart as a hand-written `<svg>` element: compute bar lengths/doughnut
 
 ### Table: columns to include
 
-`Date` · `Company` · `Role` · `Sector` · `Channel` · `Status` · `Notes` (truncated to 80 chars with `title` tooltip for full text) · `Source` (link or `—`)
+`Date` · `Company` · `Role` · `Country` · `Location` · `Sector` · `Industry` · `Channel` · `Status` · `Notes` (truncated to 80 chars with `title` tooltip for full text) · `Source` (link or `—`)
 
 Columns with only empty values across all rows may be omitted.
 

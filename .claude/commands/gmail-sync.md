@@ -1,6 +1,6 @@
 # /gmail-sync - Sync Application Status from Gmail
 
-You are scanning the user's Gmail for status signals on tracked job applications (interview invites, assessment links, offers, rejections) and, once approved, writing the detected changes into `job_search_tracker.csv` and `documents/applications/<company>_<role>/outcome.md` - the same two places `/outcome` writes to, in the same schema.
+You are scanning the user's Gmail for status signals on tracked job applications (interview invites, assessment links, offers, rejections) and, once approved, writing the detected changes into `job_search_tracker.csv` and `documents/applications/<company>_<role>_<job_id>/outcome.md` - the same two places `/outcome` writes to, in the same schema.
 
 Unlike `/outcome` (which asks the user what happened), `/gmail-sync` classifies real emails on its own - but it never writes on its own. Every classified change is presented as a batch **before** anything touches the tracker or `outcome.md`, and only proceeds once the user approves it (approving the whole batch at once is fine; writing first and flagging it after is not). Because a wrong write silently corrupts application history that `/setup` later calibrates from, every proposed change must cite its source email and every uncertain case must be surfaced instead of guessed. Never treat this command's job as "notice something in an inbox" - it is "propose a correct, sourced line for a permanent record, and write it only once the user says yes."
 
@@ -28,7 +28,7 @@ Confirm the Gmail MCP tools (`mcp__claude_ai_Gmail__*`) are available. If not, t
 
 1. Read `job_search_tracker.csv`. If it does not exist, tell the user there is nothing to sync against yet (suggest `/outcome` or `/apply` first) and stop. Do not create it here - `/gmail-sync` never originates new applications, only updates existing ones.
 2. Read `gmail_sync/state.json` (create if missing: `{"last_sync": null, "processed_message_ids": []}`).
-3. Build the set of **open applications**: tracker rows whose `status` is not a final value (`hired`, `rejected`, `no response`, `offer declined`, `withdrawn`). For each, derive its archive folder `documents/applications/<company>_<role>/` (lowercase, underscores - same convention as `/outcome`) and check whether `outcome.md` exists there.
+3. Build the set of open applications, excluding final statuses (hired, rejected, no response, offer declined, withdrawn). Resolve each archive using `.claude/commands/_match-vacancy.md`.
 4. If `$ARGUMENTS` named a company, filter this set to the matching row(s) (case-insensitive). No match → tell the user and stop, do not guess.
 
 ---
@@ -60,7 +60,7 @@ For each returned thread, inspect its messages' IDs against `state.processed_mes
 
 ## Step 5: Classify Each Unprocessed Message
 
-For each new message, first try to match it to one open application: compare the normalized sender domain / display name / subject / body against the normalized company names from Step 3. No confident match (company genuinely absent, or ambiguous between two tracked companies) → do not propose a write; record it in the Step 6 summary as "unmatched" and move to the next message.
+For each new message, identify the employer and then the individual vacancy using `.claude/commands/_match-vacancy.md`. Compare against all that employer’s applications, including closed ones, before proposing an update to an open row. Prefer a matching employer requisition or vacancy URL. Otherwise require explicit role or distinguishing details sufficient to identify one row. A company name, sender or shared title alone cannot disambiguate multiple applications. For ambiguity, show the email and candidate job IDs for manual resolution; propose no write until the user identifies the row. Display the matched job ID or source URL in each approval item.
 
 For a matched message, classify by content (require the signal phrase in the subject or the first few lines - a company name appearing only deep in a forwarded thread or newsletter footer is not a signal):
 
@@ -124,7 +124,7 @@ For every row the user approved:
    ```
    YYYY-MM-DD (via /gmail-sync): <one-line summary of what the email said>. Source: "<subject>" from <sender>, <email date>.
    ```
-3. If no archive folder/`outcome.md` exists yet for a matched application (it was added to the tracker outside `/apply`/`/outcome`), create the folder and a minimal `outcome.md` following the exact format in `documents/README.md`, same as `/outcome` would.
+3. If no archive folder/`outcome.md` exists yet for a matched application (it was added to the tracker outside `/apply`/`/outcome`), create the folder and a minimal `outcome.md` following the exact format in `documents/README.md`, same as `/outcome` would. Every row created since IDs were introduced carries a `job_id` (the employer's or a generated `GEN` one), so the folder is `<company>_<role>_<job_id>`; a suffixless `<company>_<role>` is only for a legacy row that predates IDs.
 
 Rows the user skipped are left untouched - no tracker write, no `outcome.md` write - but their message IDs are still marked processed in Step 8, so the same email isn't re-proposed every run.
 

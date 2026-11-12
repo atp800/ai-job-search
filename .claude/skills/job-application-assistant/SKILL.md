@@ -12,6 +12,8 @@ framework_version: 1.1.0
 
 ---
 
+Use the working-document and archive rules in `.claude/commands/_match-vacancy.md`.
+
 ## Workflow
 
 When the user provides a job posting (URL or text), follow this workflow:
@@ -28,13 +30,13 @@ When the user provides a job posting (URL or text), follow this workflow:
 ### Step 2: Tailor CV
 - Read the most relevant existing CV variant from `cv/` as a starting point
 - Follow the guidelines in `05-cv-templates.md`
-- Create `cv/main_<company>_<role>.tex` with tailored content
+- Create `cv/main_<draft_stem>.tex` with tailored content
 - Adjust: profile statement, skills section, experience bullet emphasis, section order
 
 ### Step 3: Write Cover Letter
 - Follow the writing style rules in `03-writing-style.md` (critical: no em-dashes, no cliches)
-- Follow the template structure in `06-cover-letter-templates.md`
-- Create `cover_letters/cover_<company>_<role>.tex`
+- Use the Super Cover Letter selection and voice guidance in `06-cover-letter-templates.md` before drafting, then use its template and check the whole letter for repeated points.
+- Create `cover_letters/cover_<draft_stem>.tex`
 - Ensure the letter connects specific experience to the role requirements
 
 ### Step 4: Interview Preparation
@@ -61,6 +63,8 @@ When the user provides a job posting (URL or text), follow this workflow:
 ---
 
 ## Quick Commands
+
+For every employer-facing document you produce, including a single CV, cover letter, supporting statement or set of portal answers, execute `.claude/commands/_validate-application.md` before handoff. This also applies to later revisions.
 
 The user may also ask for individual steps without the full workflow:
 - "Evaluate this job posting" - Step 1 only

@@ -40,7 +40,7 @@ Validate the cheap, local precondition before creating anything external. A run 
 
 1. Read `job_scraper/seen_jobs.json` and `job_search_tracker.csv` (either may be missing).
 2. Select `seen_jobs.json` entries with status `ranked` whose `rank_score` meets the threshold from Step 0. `--all` lifts the threshold entirely.
-3. Every tracker row joins the sync set (an applied-to job always syncs, ranked or not), matched to `seen_jobs.json` entries case-insensitively on company + role where possible. Tracker rows with no `seen_jobs.json` entry sync too - build their Key as `<company>_<role>` lowercased with underscores.
+3. Include every tracker row. Join to a seen posting only on a confirmed vacancy match under `.claude/commands/_match-vacancy.md`. Preserve distinct requisitions even when titles match. Use the matched seen key or a tracker-only key scoped to the company, role and job ID. When identity remains uncertain, keep records separate locally and flag the unresolved join.
 4. **Status precedence:** the tracker wins. A job that is `ranked` in `seen_jobs.json` but `interview` in the tracker syncs as `interview`. Jobs only in `seen_jobs.json` keep their stored status.
 5. **If the sync set is empty** (no ranked entries meet the threshold and there are no tracker rows), say "Nothing to sync - run `/scrape` and `/rank` first" (or, when jobs exist but all score below the threshold, say so and suggest `--min-score`/`--all`) and **stop**.
 6. State the counts before touching the destination: how many rows will be created or checked, and the threshold in effect.
@@ -60,6 +60,10 @@ Validate the cheap, local precondition before creating anything external. A run 
    |----------|------|----------------|
    | Name | title | `<Role> — <Company>` |
    | Company | rich text | |
+   | Job ID | rich text | tracker job_id verbatim, including a generated local ID when assigned |
+   | Country | select | tracker `country` column - the country the role is hired in |
+   | Location | rich text | tracker `location` column - city/area, or the remote/hybrid designation |
+   | Industry | select | tracker `industry` column - the employer's industry |
    | Score | number | 0-100 from `rank_score` |
    | Verdict | select | Strong Fit / Good Fit / Moderate Fit / Weak Fit / Poor Fit |
    | Status | select | ranked / applied / interview / offer / hired / rejected / no response / withdrawn / expired |
@@ -85,9 +89,9 @@ Validate the cheap, local precondition before creating anything external. A run 
 
 For each job in the sync set:
 
-1. Query the database for a page whose `Key` equals the job's key.
+1. Resolve the destination page using its existing Key and the same vacancy identity rules. Check both the seen key and tracker key when available. Reuse a legacy page and preserve its Key only when its employer requisition, vacancy URL or other corroborating evidence establishes the same opening. A bare company/title Key alone cannot claim a page for a new ID. If multiple pages could belong to the row or ownership of an existing Key conflicts, flag and skip that upsert. If a different vacancy clearly owns the legacy page, use a distinct vacancy-specific Key for the new one.
 2. **No match** → create the page with all properties from the Step 3 table, then write its body (Step 5).
-3. **Match** → update **properties only**: Status, Score, Verdict, Deadline, Ranked, Applied on, Channel, CV file, Cover letter. Properties are the always-current surface (bodies are write-once), so tracker updates recorded by `/outcome` reach the destination exclusively through them. Do not touch the page body - the user may have added their own notes there, and clobbering them breaks trust in the whole view. (`--rebuild` is the sole exception.)
+3. **Match** → update **properties only**: Status, Score, Verdict, Deadline, Ranked, Applied on, Channel, CV file, Cover letter, Job ID, Country, Location, Industry. Properties are the always-current surface (bodies are write-once), so tracker updates recorded by `/outcome` reach the destination exclusively through them. Do not touch the page body - the user may have added their own notes there, and clobbering them breaks trust in the whole view. (`--rebuild` is the sole exception.)
 4. Never delete or archive pages, even for jobs that turned `expired` - set Status to `expired` instead. Rows the user added to the database by hand (no `Key` value) are invisible to this command.
 
 Batch politely: if the MCP server rate-limits, back off and continue; report any page that failed rather than retrying indefinitely.
@@ -100,7 +104,7 @@ The page body is what makes a row worth clicking. Build it **only from stored da
 
 1. **Fit summary** - a short section from `seen_jobs.json` fields: score, verdict, quick-fit level, first-seen and ranked dates. If the job is in the tracker, add the application timeline (date applied, channel, current status, dated notes from the `notes` column) and name the submitted documents from `cv_file`/`cover_letter_file` (filenames only - the documents themselves never sync).
 2. **The posting** - WebFetch the job URL and write a readable digest: what the role is, key requirements, practical details (location, deadline, salary if stated). If the fetch fails or redirects to a listing page, write "Posting no longer available (checked YYYY-MM-DD)" - **never reconstruct a posting from memory**.
-3. **Links** - the posting URL; if `documents/applications/<company>_<role>/` exists locally, name it as the local archive path (plain text - the destination cannot link into the filesystem).
+3. **Links** - include the posting URL and, when present, the exact local archive path resolved under `.claude/commands/_match-vacancy.md` as plain text.
 
 Keep the page under ~40 blocks; this is a briefing, not a mirror of the posting.
 
